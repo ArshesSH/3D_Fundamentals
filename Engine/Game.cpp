@@ -20,11 +20,14 @@
 ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include "IndexedLineList.h"
+
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd )
+	gfx( wnd ),
+	cube(1.0f)
 {
 }
 
@@ -39,10 +42,17 @@ void Game::Go()
 void Game::UpdateModel()
 {
 }
-#include "Mat3.h"
+
 void Game::ComposeFrame()
 {
-	Vec3 v( 1.0f,1.0f,1.0f );
-	Mat3 m = Mat3::Scaling( 3.0f );
-	v *= m;
+	auto lines = cube.GetLines();
+	for ( auto& v : lines.vertices )
+	{
+		pst.Transform( v );
+	}
+	for ( auto i = lines.indices.cbegin(),
+		end = lines.indices.cend(); i != end; std::advance(i, 2) )
+	{
+		gfx.DrawLine( lines.vertices[*i], lines.vertices[*std::next( i )], Colors::White );
+	}
 }
