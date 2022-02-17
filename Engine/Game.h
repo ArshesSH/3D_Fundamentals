@@ -23,6 +23,7 @@
 #include "Graphics.h"
 #include "PubeScreenTransformer.h"
 #include "Cube.h"
+#include "ChiliMath.h"
 
 class Game
 {
@@ -43,6 +44,11 @@ private:
 	/********************************/
 	/*  User Variables              */
 	/********************************/
+	static constexpr float dt = 1.0f / 60.0f;
+	static constexpr float dTheta = PI;
 	Cube cube;
 	PubeScreenTransformer pst;
+	float theta_x = 0.0f;
+	float theta_y = 0.0f;
+	float theta_z = 0.0f;
 };
