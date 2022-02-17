@@ -44,27 +44,27 @@ void Game::UpdateModel()
 {
 	if ( wnd.kbd.KeyIsPressed( 'Q' ) )
 	{
-		theta_x += dTheta * dt;
+		theta_x += wrap_angle( dTheta * dt );
 	}
 	if ( wnd.kbd.KeyIsPressed( 'W' ) )
 	{
-		theta_y += dTheta * dt;
+		theta_y += wrap_angle( dTheta * dt );
 	}
 	if ( wnd.kbd.KeyIsPressed( 'E' ) )
 	{
-		theta_z += dTheta * dt;
+		theta_z += wrap_angle( dTheta * dt );
 	}
 	if ( wnd.kbd.KeyIsPressed( 'A' ) )
 	{
-		theta_x -= dTheta * dt;
+		theta_x -= wrap_angle( dTheta * dt );
 	}
 	if ( wnd.kbd.KeyIsPressed( 'S' ) )
 	{
-		theta_y -= dTheta * dt;
+		theta_y -= wrap_angle( dTheta * dt );
 	}
 	if ( wnd.kbd.KeyIsPressed( 'D' ) )
 	{
-		theta_z -= dTheta * dt;
+		theta_z -= wrap_angle( dTheta * dt );
 	}
 }
 
