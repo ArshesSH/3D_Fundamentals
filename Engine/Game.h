@@ -44,11 +44,12 @@ private:
 	/********************************/
 	/*  User Variables              */
 	/********************************/
-	static constexpr float dt = 1.0f / 60.0f;
+	static constexpr float dt = 1.0f / 144.0f;
 	static constexpr float dTheta = PI;
 	Cube cube;
 	PubeScreenTransformer pst;
 	float theta_x = 0.0f;
 	float theta_y = 0.0f;
 	float theta_z = 0.0f;
+	float offset_z = 0.0f;
 };
