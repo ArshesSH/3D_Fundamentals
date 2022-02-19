@@ -90,6 +90,7 @@ void Game::ComposeFrame()
 	for ( auto i = triangles.indices.cbegin(),
 		end = triangles.indices.cend(); i != end; std::advance( i, 3 ) )
 	{
-		gfx.DrawTriangle( triangles.vertices[*i], triangles.vertices[*std::next( i )], triangles.vertices[*std::next( i, 2 )], Colors::White );
+		gfx.DrawTriangle( triangles.vertices[*i], triangles.vertices[*std::next( i )], triangles.vertices[*std::next( i, 2 )],
+			colors[std::distance(triangles.indices.cbegin(),i) / 3]);
 	}
 }

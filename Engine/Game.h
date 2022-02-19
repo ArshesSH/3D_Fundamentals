@@ -44,6 +44,20 @@ private:
 	/********************************/
 	/*  User Variables              */
 	/********************************/
+	static constexpr Color colors[12] = {
+		Colors::White,
+		Colors::Blue,
+		Colors::Cyan,
+		Colors::Gray,
+		Colors::Green,
+		Colors::Magenta,
+		Colors::LightGray,
+		Colors::Red,
+		Colors::Yellow,
+		Colors::White,
+		Colors::Blue,
+		Colors::Cyan
+	};
 	static constexpr float dt = 1.0f / 144.0f;
 	static constexpr float dTheta = PI;
 	Cube cube;
