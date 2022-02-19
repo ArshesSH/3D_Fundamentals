@@ -130,6 +130,15 @@ public:
 	{
 		return !(*this == rhs);
 	}
+	_Vec3 GetCrossProduct( const _Vec3& lhs, const _Vec3& rhs ) const
+	{
+		return
+		{
+			lhs.y * rhs.z - lhs.z * rhs.y,
+			lhs.z * rhs.x - lhs.x * rhs.z,
+			lhs.x * rhs.y - lhs.y * rhs.x
+		};
+	}
 public:
 	T z;
 };
