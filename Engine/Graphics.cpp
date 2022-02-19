@@ -381,3 +381,99 @@ void Graphics::DrawLine( float x1,float y1,float x2,float y2,Color c )
 		}
 	}
 }
+
+void Graphics::DrawTriangle( const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c )
+{
+	// Make pointer of vector to swap vertices
+	const Vec2* p0 = &v0;
+	const Vec2* p1 = &v1;
+	const Vec2* p2 = &v2;
+
+	// swap by size of y
+	if ( p0->y > p1->y ) std::swap( p0, p1 );
+	if ( p1->y > p2->y ) std::swap( p1, p2 );
+	if ( p0->y > p1->y ) std::swap( p0, p1 );
+
+	if ( p0->y == p1->y )	// top flat
+	{
+		// sort by x
+		if ( p0->x > p1->x ) std::swap( p0, p1 );
+		DrawFlatTopTriangle( *p0, *p1, *p2, c );
+	}
+	else if ( p1->y == p2->y )	// bottom flat
+	{
+		// sort by x
+		if ( p1->x > p2->x ) std::swap( p1, p2 );
+		DrawFlatBottomTriangle( *p0, *p1, *p2, c );
+	}
+	else
+	{
+		// split general triangle
+		const float alpha = (p1->y - p0->y) / (p2->y - p0->y);
+		const Vec2 vSplit = *p0 + (*p2 - *p0) * alpha;			// = (1-a)p0 + ap2
+
+		// Check major line's pos and draw two triangles
+		if ( p1->x < vSplit.x )	// case major right
+		{
+			DrawFlatBottomTriangle( *p0, *p1, vSplit, c );
+			DrawFlatTopTriangle( *p1, vSplit, *p2, c );
+		}
+		else  // major left
+		{
+			DrawFlatBottomTriangle( *p0, vSplit, *p1, c );
+			DrawFlatTopTriangle( vSplit, *p1, *p2, c );
+		}
+	}
+}
+
+void Graphics::DrawFlatTopTriangle( const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c )
+{
+	// calc slope of triangle m0 and m1 (It's dx/dy not dy/dx because of infinite problem) 
+	const float m0 = (v2.x - v0.x) / (v2.y - v0.y);
+	const float m1 = (v2.x - v1.x) / (v2.y - v1.y);
+
+	// y axis Triangle rasterizer rule (top left rule)
+	const int yStart = (int)ceil( v0.y - 0.5f );
+	const int yEnd = (int)ceil( v2.y - 0.5f );
+
+	// Scan line Start
+	for ( int y = yStart; y < yEnd; y++ )
+	{
+		// Calculate x start and end, +0 
+		const float px0 = m0 * (float( y ) + 0.5f - v0.y) + v0.x;
+		const float px1 = m1 * (float( y ) + 0.5f - v1.y) + v1.x;
+		
+		const int xStart = (int)ceil( px0 - 0.5f );
+		const int xEnd = (int)ceil( px1 - 0.5f );
+		for ( int x = xStart; x < xEnd; x++ )
+		{
+			PutPixel( x, y, c );
+		}
+	}
+}
+
+void Graphics::DrawFlatBottomTriangle( const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c )
+{
+	// calc slope of triangle m0 and m1 (It's dx/dy not dy/dx because of infinite problem) 
+	const float m0 = (v1.x - v0.x) / (v1.y - v0.y);
+	const float m1 = (v2.x - v0.x) / (v2.y - v0.y);
+
+	// y axis Triangle rasterizer rule (top left rule)
+	const int yStart = (int)ceil( v0.y - 0.5f );
+	const int yEnd = (int)ceil( v2.y - 0.5f );
+
+	// Scan line Start
+	for ( int y = yStart; y < yEnd; y++ )
+	{
+		// Calculate x start and end, +0 
+		const float px0 = m0 * (float( y ) + 0.5f - v0.y) + v0.x;
+		const float px1 = m1 * (float( y ) + 0.5f - v0.y) + v0.x;
+
+		const int xStart = (int)ceil( px0 - 0.5f );
+		const int xEnd = (int)ceil( px1 - 0.5f );
+		for ( int x = xStart; x < xEnd; x++ )
+		{
+			PutPixel( x, y, c );
+		}
+	}
+}
