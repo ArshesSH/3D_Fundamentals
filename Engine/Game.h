@@ -21,9 +21,10 @@
 #pragma once
 
 #include "Graphics.h"
-#include "PubeScreenTransformer.h"
-#include "Cube.h"
+#include "Scene.h"
 #include "ChiliMath.h"
+#include <memory>
+#include <vector>
 
 class Game
 {
@@ -38,32 +39,14 @@ private:
 	/********************************/
 	/*  User Functions              */
 	/********************************/
+	void CycleScenes();
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
 	/********************************/
-	static constexpr Color colors[12] = {
-		Colors::White,
-		Colors::Blue,
-		Colors::Cyan,
-		Colors::Gray,
-		Colors::Green,
-		Colors::Magenta,
-		Colors::LightGray,
-		Colors::Red,
-		Colors::Yellow,
-		Colors::White,
-		Colors::Blue,
-		Colors::Cyan
-	};
 	static constexpr float dt = 1.0f / 144.0f;
-	static constexpr float dTheta = PI;
-	Cube cube;
-	PubeScreenTransformer pst;
-	float theta_x = 0.0f;
-	float theta_y = 0.0f;
-	float theta_z = 0.0f;
-	float offset_z = 0.0f;
+	std::vector<std::unique_ptr<Scene>> scenes;
+	std::vector<std::unique_ptr<Scene>>::iterator curScene;
 };
